@@ -1,7 +1,7 @@
 #!/bin/bash
 link_live='http://sport.tvp.pl'$(curl --silent 'http://sport.tvp.pl/mundial2018/transmisje' | grep -oP '/mundial2018.*?-mecz-live' | head -n 1);
 echo ${link_live}
-stream_id=$(curl $link_live --silent | grep -oP 'data-object-id="\d+"' | grep -oP '\d+');
+stream_id=$(curl $link_live --silent | grep -oP 'data-object-id="\d+"' | grep -oP '\d+' | sort -rn | head -n 1);
 echo ${stream_id}
 stream_link=$(curl 'http://sport.tvp.pl/sess/tvplayer.php?object_id='${stream_id}'&force_original_for_tracking=1&autoplay=false&hola=1' | grep -oP 'http.*?isml/' | uniq); qualities=$(curl ${stream_link}manifest.m3u8 | grep live_);
 echo ${stream_link}

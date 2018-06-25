@@ -1,5 +1,9 @@
 #!/bin/bash
-link_live='http://sport.tvp.pl'$(curl --silent 'http://sport.tvp.pl/mundial2018/transmisje' | grep -oP '/mundial2018.*?-mecz-live' | head -n 1);
+matches='http://sport.tvp.pl'$(curl --silent 'http://sport.tvp.pl/mundial2018/transmisje' | grep -oP '/mundial2018.*?-mecz-live');
+
+link_live='http://sport.tvp.pl'$(gdialog --clear --backtitle "Backtitle" --title "Title" --menu "Choose match" 15 200 4 $(for i in $matches; do echo $i $i; done) 2>&1 >/dev/tty)
+
+#link_live='http://sport.tvp.pl'$(curl --silent 'http://sport.tvp.pl/mundial2018/transmisje' | grep -oP '/mundial2018.*?-mecz-live' | head -n 1);
 echo ${link_live}
 stream_id=$(curl $link_live --silent | grep -oP 'data-object-id="\d+"' | grep -oP '\d+');
 echo ${stream_id}
